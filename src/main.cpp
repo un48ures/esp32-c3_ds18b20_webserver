@@ -51,6 +51,13 @@ void handleRoot() {
   server.send(200, "text/html", generateHTML(tempC));
 }
 
+void handleTemperature() {
+  sensors.requestTemperatures();
+  float tempC = sensors.getTempCByIndex(0);
+  String temp = String(tempC, 2);
+  server.send(200, "text/plain", temp);
+}
+
 // ====================================================
 
 void setup() {
@@ -73,6 +80,7 @@ void setup() {
 
   // Set up web server routes
   server.on("/", handleRoot);
+  server.on("/temp", handleTemperature);
   server.begin();
   Serial.println("Web server started.");
 }
